@@ -44,7 +44,7 @@ function App() {
     const handleSignUpSuccess = () => {
         // In a real app, you might show a success message here,
         // then navigate to the login page.
-        alert('Account created successfully! Please log in with your new credentials.');
+        alert('Account created successfully! Please log in with your new credentials.'); // Using alert for simplicity, consider a modal
         handleGoToLogin(); // Go back to login page
     };
 
@@ -54,11 +54,21 @@ function App() {
         setError(null); // Clear previous errors
         setHasSearched(true); // Indicate that a search attempt has been made
         try {
+            // Fetch current weather data
             const weatherData = await getCurrentWeather(query);
             setCurrentWeather(weatherData);
 
+            // Fetch 5-day forecast data
             const forecastData = await getFiveDayForecast(query);
-            setFiveDayForecast(forecastData);
+            
+            // CRITICAL CHANGE: Add a check for forecastData and forecastData.list
+            if (forecastData && forecastData.list) {
+                setFiveDayForecast(forecastData.list);
+            } else {
+                console.error("Forecast data or its 'list' property is missing:", forecastData);
+                setFiveDayForecast([]); // Ensure it's an empty array if data is invalid
+                setError("Could not retrieve 5-day forecast data.");
+            }
 
         } catch (err) {
             setError(err.message);
@@ -95,7 +105,16 @@ function App() {
                         setCurrentWeather(weatherData);
                         // Fetch forecast by coordinates
                         const forecastData = await getFiveDayForecastByCoords(latitude, longitude);
-                        setFiveDayForecast(forecastData);
+                        
+                        // CRITICAL CHANGE: Add a check for forecastData and forecastData.list
+                        if (forecastData && forecastData.list) {
+                            setFiveDayForecast(forecastData.list);
+                        } else {
+                            console.error("Geolocation forecast data or its 'list' property is missing:", forecastData);
+                            setFiveDayForecast([]); // Ensure it's an empty array if data is invalid
+                            setError("Could not retrieve 5-day forecast data for current location.");
+                        }
+
                         // Update input with truncated coords for clarity, or can set to "Current Location"
                         setLocation(`${latitude.toFixed(2)},${longitude.toFixed(2)}`);
                     } catch (err) {
@@ -145,8 +164,6 @@ function App() {
             ) : (
                 // IF LOGGED IN, SHOW WEATHER APP CONTENT
                 <>
-                    {/* Logout button at the very bottom of the weather app content */}
-                    {/* Position: absolute and right corner is handled by CSS in App.css */}
                     <h1 className="app-title">Instant Weather</h1>
 
                     <SearchForm
@@ -171,9 +188,10 @@ function App() {
 
                     {currentWeather && !isLoading && !error && <WeatherDisplay weather={currentWeather} />}
 
-                    {fiveDayForecast.length > 0 && !isLoading && !error && <ForecastDisplay forecast={fiveDayForecast} />}
+                    {/* Renders ForecastDisplay only if fiveDayForecast has items, not loading, and no error */}
+                    {fiveDayForecast && fiveDayForecast.length > 0 && !isLoading && !error && <ForecastDisplay forecast={fiveDayForecast} />}
 
-                    {/* NEW POSITION: Log out button at the very bottom of the weather app content */}
+                    {/* Log out button at the very bottom of the weather app content */}
                     <button onClick={handleLogout} className="logout-button-bottom">Log Out</button>
                 </>
             )}
