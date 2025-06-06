@@ -14,7 +14,7 @@ If you are developing a production application, we recommend using TypeScript wi
 =======
 # Instant-Weather-Web
 >>>>>>> 01ec1370a61caff0c6daf6cd570e57125a96561a
-# Instant Weather Web - My Awesome Project
+# Instant Weather Web 
 
 This is my personal React weather application project.
 It uses the OpenWeatherMap API to display current conditions and a 5-day forecast.
