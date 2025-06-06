@@ -4,38 +4,52 @@ import React from 'react';
 import ForecastCard from './ForecastCard.jsx';
 
 function ForecastDisplay({ forecast }) {
-    // If forecast is null, undefined, or empty, don't render anything
+    console.log("ForecastDisplay: Component rendered.");
+    console.log("ForecastDisplay: Received forecast prop:", forecast); // Log the incoming prop
+
     if (!forecast || forecast.length === 0) {
+        console.log("ForecastDisplay: forecast prop is empty or null, returning null.");
         return null;
     }
 
-    // This array will store one representative forecast item for each of the next 5 days.
     const dailyForecastsToDisplay = [];
-    const uniqueDates = new Set(); // To keep track of dates we've already added
+    const uniqueDates = new Set();
 
-    forecast.forEach(item => {
+    forecast.forEach((item, index) => { // Added index for easier debugging
+        console.log(`ForecastDisplay: Processing item ${index}:`, item); // Log each item being processed
+
         // Ensure item has the necessary properties before processing
-        // OpenWeatherMap's 'dt' is a Unix timestamp in seconds, convert to milliseconds for Date object
         if (item && item.dt && item.main && typeof item.main.temp !== 'undefined') {
-            const date = new Date(item.dt * 1000);
-            // Get a simple date string (e.g., "6/5/2025") to identify unique days
-            const dateString = date.toLocaleDateString('en-US');
+            const date = new Date(item.dt * 1000); // OpenWeatherMap's 'dt' is Unix timestamp in seconds
+            const dateString = date.toLocaleDateString('en-US', {
+                month: 'numeric',
+                day: 'numeric',
+                year: 'numeric'
+            });
 
-            // Check if we haven't added a forecast for this date yet
+            console.log(`ForecastDisplay: Item ${index} - DateString: ${dateString}, Temp: ${item.main.temp}`); // Log date and temp
+
             if (!uniqueDates.has(dateString)) {
                 dailyForecastsToDisplay.push(item);
                 uniqueDates.add(dateString);
+                console.log(`ForecastDisplay: Added item ${index} for date ${dateString}. dailyForecastsToDisplay length: ${dailyForecastsToDisplay.length}`);
 
-                // If we have 5 days, we can stop processing to get the next 5 days
                 if (dailyForecastsToDisplay.length >= 5) {
+                    console.log("ForecastDisplay: Reached 5 days, stopping forecast processing.");
                     return; // Break out of forEach
                 }
+            } else {
+                console.log(`ForecastDisplay: Item ${index} - Date ${dateString} already added.`);
             }
+        } else {
+            console.log(`ForecastDisplay: Item ${index} - SKIPPED due to missing properties:`, item); // Log skipped items
         }
     });
 
-    // If after filtering, there are no valid forecasts, return null
+    console.log("ForecastDisplay: Final dailyForecastsToDisplay:", dailyForecastsToDisplay); // Log the final array
+
     if (dailyForecastsToDisplay.length === 0) {
+        console.log("ForecastDisplay: dailyForecastsToDisplay is empty after filtering, returning null.");
         return null;
     }
 
@@ -44,7 +58,6 @@ function ForecastDisplay({ forecast }) {
             <h3 className="forecast-title">5-Day Forecast</h3>
             <div className="forecast-cards-container">
                 {dailyForecastsToDisplay.map((item) => (
-                    // The 'key' is crucial for React list rendering. 'item.dt' is a unique timestamp.
                     <ForecastCard key={item.dt} forecastItem={item} />
                 ))}
             </div>
