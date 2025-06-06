@@ -1,0 +1,101 @@
+/* src/components/LoginPage.css */
+
+.login-container {
+    background-color: var(--card-bg-color); /* Uses a variable from App.css */
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow-medium); /* Uses a variable from App.css */
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 50px auto; /* Center it vertically a bit */
+}
+
+.login-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-color-dark); /* Uses a variable from App.css */
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-color-light); /* Uses a variable from App.css */
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color); /* Uses a variable from App.css */
+    border-radius: 25px;
+    font-size: 1rem;
+    color: var(--text-color-dark); /* Uses a variable from App.css */
+    background-color: var(--primary-bg-color); /* Lighter background for input */
+    outline: none;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.form-group input:focus {
+    border-color: var(--accent-color-purple); /* Uses a variable from App.css */
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2); /* Light purple shadow */
+}
+
+.login-error-message {
+    color: #cc0000; /* Dark red for errors */
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.login-button {
+    background-color: var(--accent-color-purple); /* Uses a variable from App.css */
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.login-button:hover {
+    background-color: #8c6fe8; /* Slightly darker purple on hover */
+    transform: translateY(-2px);
+}
+
+.signup-text {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    margin-top: 20px;
+}
+
+.signup-link {
+    color: var(--accent-color-purple);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,426 @@
+/* src/App.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-bg-color: #f7f3f9; /* Light purple/pinkish background */
+    --card-bg-color: #ffffff; /* White card background */
+    --text-color-dark: #333;
+    --text-color-light: #666;
+    --accent-color-purple: #a78bfa; /* A vibrant purple for buttons/highlights */
+    --accent-color-orange: #f26f21; /* For the main weather icon circle */
+    --border-color: #e0e0e0;
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color-dark);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to start to allow scrolling if content is long */
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    box-sizing: border-box;
+}
+
+#root {
+    width: 100%;
+    max-width: 450px; /* Constrain max width for mobile-first design */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Spacing between major sections */
+    padding-bottom: 30px; /* Add some padding at the bottom */
+    position: relative; /* THIS IS CRUCIAL FOR ABSOLUTE POSITIONING OF LOGOUT BUTTON */
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+/* Search Form */
+.search-form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg-color);
+    border-radius: 30px;
+    box-shadow: var(--shadow-light);
+    overflow: hidden;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 15px 20px;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-color-dark);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-color-light);
+}
+
+.search-icon-button {
+    background-color: transparent;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-color-light);
+    transition: color 0.2s ease;
+}
+
+.search-icon-button:hover:not(:disabled) {
+    color: var(--accent-color-purple);
+}
+
+.search-icon-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.current-location-button {
+    background-color: var(--card-bg-color);
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color);
+    padding: 15px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: fit-content;
+}
+
+.current-location-button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.current-location-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Initial Message & Loading Message */
+.initial-message,
+.loading-message {
+    font-size: 1.1rem;
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+/* Weather Display */
+.weather-display {
+    background-color: var(--card-bg-color);
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.weather-city {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-color-dark);
+}
+
+.current-weather-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.weather-icon-circle {
+    background-color: var(--accent-color-orange);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
+}
+
+.temperature-group {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.temperature {
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    color: var(--text-color-dark);
+}
+
+.degree-symbol {
+    font-size: 2.5rem;
+    align-self: flex-start; /* Aligns with the top of the temperature number */
+    margin-top: 10px;
+    margin-left: 5px;
+    color: var(--text-color-dark);
+}
+
+.weather-description {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+    margin-bottom: 30px;
+    text-transform: capitalize;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Align items to the top of their containers */
+    border-top: 1px solid var(--border-color);
+    padding-top: 25px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.95rem;
+    color: var(--text-color-light);
+}
+
+.detail-icon {
+    font-size: 2.2rem;
+    color: var(--accent-color-purple);
+}
+
+.detail-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+/* Forecast Display */
+.forecast-display {
+    background-color: var(--card-bg-color);
+    border-radius: 20px;
+    padding: 25px 20px;
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.forecast-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.forecast-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    justify-content: center;
+    text-align: center;
+}
+
+.forecast-card {
+    background-color: var(--primary-bg-color);
+    border-radius: 15px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.2s ease;
+}
+
+.forecast-card:hover {
+    transform: translateY(-5px);
+}
+
+.forecast-date {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.forecast-time {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.forecast-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+}
+
+.forecast-temp {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.forecast-description {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    margin: 0;
+    text-transform: capitalize;
+}
+
+/* For SignUpPage success message */
+.success-message {
+    color: #28a745; /* Green color for success */
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+/* Logout Button */
+.logout-button {
+    position: absolute; /* Position it relative to the App container */
+    top: 20px;
+    right: 20px;
+    background-color: #dc3545; /* Red color for logout */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .app-title {
+        font-size: 2rem;
+    }
+
+    .temperature {
+        font-size: 4rem;
+    }
+
+    .degree-symbol {
+        font-size: 2rem;
+    }
+
+    .weather-description {
+        font-size: 1.2rem;
+    }
+
+    .detail-icon {
+        font-size: 2rem;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+    }
+
+    .forecast-title {
+        font-size: 1.5rem;
+    }
+    /* Adjust logout button for smaller screens if needed */
+    .logout-button {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+/* src/App.css (remove old .logout-button styles, add these new ones) */
+
+/* Logout Button (Bottom) */
+.logout-button-bottom {
+    /* Reset positioning from previous absolute */
+    position: static; /* or relative, default flow */
+    margin-top: 30px; /* Add some space from content above */
+    background-color: #dc3545; /* Red color for logout */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Slightly larger padding for bottom button */
+    border-radius: 25px; /* More rounded */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: fit-content; /* Only as wide as content */
+    align-self: center; /* Center horizontally in flex container */
+}
+
+.logout-button-bottom:hover {
+    background-color: #c82333;
+    transform: translateY(-2px); /* Lift slightly on hover */
+}
+
+/* Remove the old .logout-button styles completely */
+/* .logout-button { ... } */
+/* And its media query block if it existed */
+/* @media (max-width: 480px) { .logout-button { ... } } */
